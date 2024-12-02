@@ -16,7 +16,7 @@ defmodule AdventOfCode.Day01Test do
     assert result == 11
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = "3   4
     4   3
