@@ -198,8 +198,6 @@ defmodule AdventOfCode.Day06 do
 
     grid = get_parsed_input(input)
 
-    guard_pos = CalbeGrid.find_point(grid, fn cell -> cell == "^" end)
-
     possible_obstruction_points = Map.filter(grid, fn {key, value} ->
       value != "#" && value != "^" && key != :util
     end)
@@ -207,7 +205,7 @@ defmodule AdventOfCode.Day06 do
 
     total = Enum.count(possible_obstruction_points)
 
-    loop_obstruction_points = Enum.with_index(possible_obstruction_points)
+    Enum.with_index(possible_obstruction_points)
     |> Enum.map(fn {{x, y}, i} ->
       IO.puts("checking #{i} of #{total} (#{i/total * 100}%)")
 
