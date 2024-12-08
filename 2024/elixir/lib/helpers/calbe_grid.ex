@@ -30,6 +30,10 @@ defmodule Helpers.CalbeGrid do
         grid[:util][:width]
     end
 
+    def get_is_point_in_bounds(grid, {x, y}) do
+        x >= 0 and x < get_grid_width(grid) and y >= 0 and y < get_grid_len(grid)
+    end
+
     def get_by_x_y(grid, x, y, out_of_bounds_response \\ nil) do
         if (
             x >= 0 &&
