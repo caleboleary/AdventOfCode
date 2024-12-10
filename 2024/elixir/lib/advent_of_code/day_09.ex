@@ -106,17 +106,17 @@ defmodule AdventOfCode.Day09 do
     end)
   end
 
-  defp text_vizualize_disk_map(uncompressed_disk_map) do
-    Enum.map(uncompressed_disk_map, fn x ->
-      if x.id == :empty do
-        List.duplicate(".", x.size) |> Enum.join()
-      else
-        List.duplicate("#{x.id}", x.size) |> Enum.join()
-      end
-    end)
-    |> Enum.join()
-    |> IO.inspect(label: "disk_map")
-  end
+  # defp text_vizualize_disk_map(uncompressed_disk_map) do
+  #   Enum.map(uncompressed_disk_map, fn x ->
+  #     if x.id == :empty do
+  #       List.duplicate(".", x.size) |> Enum.join()
+  #     else
+  #       List.duplicate("#{x.id}", x.size) |> Enum.join()
+  #     end
+  #   end)
+  #   |> Enum.join()
+  #   |> IO.inspect(label: "disk_map")
+  # end
 
   defp migrate_whole_files_leftward(uncompressed_disk_map) do
     Enum.with_index(uncompressed_disk_map)

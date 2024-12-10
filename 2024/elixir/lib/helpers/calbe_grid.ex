@@ -111,7 +111,7 @@ defmodule Helpers.CalbeGrid do
     end
 
     # based on my impl from last year https://github.com/caleboleary/AdventOfCode22/blob/main/day12/day12pt1.exs
-    def dijkstra(grid, {start_x, start_y}, get_viable_moves, get_should_halt, get_weight) do
+    def dijkstra(grid, {start_x, start_y}, get_viable_moves, get_should_halt, end_point, get_weight) do
 
         priority_queue = Enum.filter(grid, fn {point, _cell} ->
             point != :util
@@ -123,49 +123,58 @@ defmodule Helpers.CalbeGrid do
 
         Enum.reduce_while(1..20000, %{priority_queue: priority_queue, visited_nodes: [], predecessors: %{}}, fn _iteration, acc ->
 
-            IO.inspect(acc, [label: "acc", charlists: :as_lists])
+            # IO.inspect(acc, [label: "acc", charlists: :as_lists])
 
-            {current_node, current_node_dist} = Enum.find(acc.priority_queue, fn {key, value} ->
+            cn = Enum.find(acc.priority_queue, fn {key, value} ->
                 !Enum.member?(acc.visited_nodes, key) && value != :infinity
             end)
-            |> IO.inspect([label: "current_node", charlists: :as_lists])
+            # |> IO.inspect([label: "current_node", charlists: :as_lists])
 
-            viable_neighbors = get_viable_moves.(grid, current_node, acc.predecessors)
-
-            new_priority_queue_and_preds = Enum.reduce(viable_neighbors, {acc.priority_queue, acc.predecessors}, fn neighbor, {acc2, preds} ->
-
-                neighbor_dist = Enum.find(acc.priority_queue, fn {key, _} -> key == neighbor end) |> elem(1)
-
-                if neighbor_dist === :infinity or neighbor_dist > current_node_dist + 1 do
-
-                    base_dist = if current_node_dist === :infinity do 0 else current_node_dist end
-
-                    filtered_acc2 = acc2 |> Enum.filter(fn {key, _} -> key != neighbor end)
-
-                    new_entry = {neighbor, base_dist + get_weight.(grid, neighbor, current_node)}
-
-                    new_preds = Map.put(preds, neighbor, current_node)
-
-                    {filtered_acc2 ++ [new_entry], new_preds}
-                else
-                    {acc2, preds}
-                end
-            end)
-
-            new_priority_queue = new_priority_queue_and_preds |> elem(0)
-            |> Enum.sort(fn {_, a}, {_, b} -> a < b end)
-
-            new_predecessors = new_priority_queue_and_preds |> elem(1)
-
-            new_visited_nodes = [current_node | acc.visited_nodes]
-
-            should_halt = get_should_halt.(grid, new_priority_queue)
-
-            if should_halt do
-                {:halt, {new_priority_queue, new_predecessors}}
+            if cn === nil do
+                {:halt, {acc.priority_queue, acc.predecessors}}
             else
-                {:cont, %{priority_queue: new_priority_queue, visited_nodes: new_visited_nodes, predecessors: new_predecessors}}
+                {current_node, current_node_dist} = cn
+
+                viable_neighbors = get_viable_moves.(grid, current_node, acc.predecessors)
+                # |> IO.inspect([label: "viable_neighbors", charlists: :as_lists])
+
+                new_priority_queue_and_preds = Enum.reduce(viable_neighbors, {acc.priority_queue, acc.predecessors}, fn neighbor, {acc2, preds} ->
+
+                    neighbor_dist = Enum.find(acc.priority_queue, fn {key, _} -> key == neighbor end) |> elem(1)
+
+                    if neighbor_dist === :infinity or neighbor_dist > current_node_dist + 1 do
+
+                        base_dist = if current_node_dist === :infinity do 0 else current_node_dist end
+
+                        filtered_acc2 = acc2 |> Enum.filter(fn {key, _} -> key != neighbor end)
+
+                        new_entry = {neighbor, base_dist + get_weight.(grid, neighbor, current_node)}
+
+                        new_preds = Map.put(preds, neighbor, current_node)
+
+                        {filtered_acc2 ++ [new_entry], new_preds}
+                    else
+                        {acc2, preds}
+                    end
+                end)
+
+                new_priority_queue = new_priority_queue_and_preds |> elem(0)
+                |> Enum.sort(fn {_, a}, {_, b} -> a < b end)
+
+                new_predecessors = new_priority_queue_and_preds |> elem(1)
+
+                new_visited_nodes = [current_node | acc.visited_nodes]
+
+                should_halt = get_should_halt.(grid, new_priority_queue, end_point)
+
+                if should_halt do
+                    {:halt, {new_priority_queue, new_predecessors}}
+                else
+                    {:cont, %{priority_queue: new_priority_queue, visited_nodes: new_visited_nodes, predecessors: new_predecessors}}
+                end
+
             end
+
 
         end)
 
