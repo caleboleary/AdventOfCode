@@ -5,17 +5,23 @@ defmodule AdventOfCode.Day12Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input = "AAAA
+BBCD
+BBCC
+EEEC"
     result = part1(input)
 
-    assert result
+    assert result == 140
   end
 
   @tag :skip
   test "part2" do
-    input = nil
+    input = "AAAA
+BBCD
+BBCC
+EEEC"
     result = part2(input)
 
-    assert result
+    assert result == 80
   end
 end
