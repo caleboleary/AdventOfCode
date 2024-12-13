@@ -88,6 +88,6 @@ defmodule AdventOfCode.Day11 do
       IO.inspect(index, label: "index")
       process_blink_p2(acc)
     end)
-    |> Enum.reduce(0, fn {stone_value, stone_count}, acc -> acc + stone_count end)
+    |> Enum.reduce(0, fn {_stone_value, stone_count}, acc -> acc + stone_count end)
   end
 end

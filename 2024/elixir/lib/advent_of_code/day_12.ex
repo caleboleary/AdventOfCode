@@ -22,7 +22,7 @@ defmodule AdventOfCode.Day12 do
     bfs(grid, [{x, y}], known_region, type)
   end
 
-  defp bfs(grid, [], known_region, _type), do: known_region
+  defp bfs(_grid, [], known_region, _type), do: known_region
   defp bfs(grid, [current | rest], known_region, type) do
       {x, y} = current
 
@@ -47,7 +47,7 @@ defmodule AdventOfCode.Day12 do
     get_region_neighbors(grid, {x, y}, [{x, y}])
   end
 
-  defp get_region_perimeter(grid, region) do
+  defp get_region_perimeter(_grid, region) do
     Enum.reduce(region, 0, fn {x, y}, acc ->
       acc + Enum.count([
         {x, y - 1},
@@ -78,7 +78,7 @@ defmodule AdventOfCode.Day12 do
   end
 
 
-  defp get_region_sides(grid, region) do
+  defp get_region_sides(_grid, region) do
     perimeter = Enum.filter(region, fn {x, y} ->
       Enum.any?([
         {x, y - 1},
@@ -115,7 +115,7 @@ defmodule AdventOfCode.Day12 do
         limit = 1000
 
         pos = Enum.reduce_while(1..limit, [{{x, y}, {nrnx, nrny}}], fn _iteration, acc ->
-          [{current, opposite} | rest] = acc
+          [{current, _opposite} | _rest] = acc
 
           next = {elem(current, 0) + elem(vector, 0), elem(current, 1) + elem(vector, 1)}
           next_opposite = {elem(next, 0) + elem(transform, 0), elem(next, 1) + elem(transform, 1)}
@@ -128,7 +128,7 @@ defmodule AdventOfCode.Day12 do
         end)
 
         neg = Enum.reduce_while(1..limit, [{{x, y}, {nrnx, nrny}}], fn _iteration, acc ->
-          [{current, opposite} | rest] = acc
+          [{current, _opposite} | _rest] = acc
 
           next = {elem(current, 0) + elem(nevative_vector, 0), elem(current, 1) + elem(nevative_vector, 1)}
           next_opposite = {elem(next, 0) + elem(transform, 0), elem(next, 1) + elem(transform, 1)}
