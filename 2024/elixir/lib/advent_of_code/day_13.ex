@@ -1,4 +1,16 @@
 defmodule AdventOfCode.Day13 do
+  @moduledoc """
+  this one was quite difficult as I'm not really a math expert
+  I eventually did what I thought should work and it didn't for p2
+  so I talked to claude and got a suggestion for searching in a small
+  grid around the solution I'd found for a potentially cheaper solution
+  and it worked.
+
+  I hadn't even really internalized that there could be multiple solutions tbh
+  so I'm glad I asked lol.
+
+  I'm tired and leaving this one dirty with all the logs :D
+  """
 
   defp get_parsed_input(input) do
     input
@@ -113,6 +125,7 @@ defmodule AdventOfCode.Day13 do
   # 163.23529411764704b = 6529.411764705883
 
   # 6529.411764705883 / 163.23529411764704 = 40.00000000000001
+  # |> round() lol
 
   # 94a + 22(40) = 8400
   # 94a + 880 = 8400
@@ -141,8 +154,15 @@ defmodule AdventOfCode.Day13 do
     a = equivalent_first_equation_right / equivalent_first_equation_left
     |> IO.inspect(label: "a")
 
-    a_base = trunc(a)
-    b_base = trunc(b)
+    # this section came out of a conversation with claude
+    # after I had a bunch of wrong answers
+    # the suggestion was that I was finding a point that satisfied the equations
+    # but potentially not the cheapest point
+    # the rec was to look in a small grid around my algebra point and test price of
+    # all of them to see if any others satisfy the equations and are cheaper
+    # and it actually did change my answer and work, so that's cool!
+    a_base = a |> trunc()
+    b_base = b |> trunc()
 
     -2..2
     |> Enum.flat_map(fn da ->
@@ -153,10 +173,12 @@ defmodule AdventOfCode.Day13 do
     end)
     |> Enum.filter(fn {a_try, b_try} ->
       a_try > 0 && b_try > 0 &&
-      abs((machine.a |> elem(0)) * a_try + (machine.b |> elem(0)) * b_try - (machine.prize |> elem(0))) < 0.0001 &&
-      abs((machine.a |> elem(1)) * a_try + (machine.b |> elem(1)) * b_try - (machine.prize |> elem(1))) < 0.0001
+      (machine.a |> elem(0)) * a_try + (machine.b |> elem(0)) * b_try - (machine.prize |> elem(0)) |> abs() < 0.0001 &&
+      (machine.a |> elem(1)) * a_try + (machine.b |> elem(1)) * b_try - (machine.prize |> elem(1)) |> abs() < 0.0001
     end)
-    |> Enum.map(fn {a_try, b_try} -> (a_try * 3) + b_try end)
+    |> Enum.map(fn {a_try, b_try} ->
+      (a_try * 3) + b_try
+    end)
     |> Enum.min(fn -> 0 end)
 
   end
