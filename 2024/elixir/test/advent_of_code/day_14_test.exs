@@ -24,7 +24,7 @@ p=9,5 v=-3,-3"
     assert result == 12
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = "p=0,4 v=3,-3
 p=6,3 v=-1,-3

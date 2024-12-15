@@ -47,6 +47,19 @@ defmodule Helpers.CalbeGrid do
         end
     end
 
+    def get_point_by_x_y(grid, x, y, out_of_bounds_response \\ nil) do
+        if (
+            x >= 0 &&
+            y >= 0 &&
+            x <= (get_grid_width(grid) - 1) &&
+            y <= (get_grid_len(grid) - 1)
+        ) do
+            {{x, y}, grid[{x, y}]}
+        else
+            out_of_bounds_response
+        end
+    end
+
     def set_by_x_y(grid, x, y, value) do
         Map.put(grid, {x, y}, value)
     end

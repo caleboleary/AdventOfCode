@@ -169,7 +169,7 @@ defmodule AdventOfCode.Day14 do
 
 
       # log when there is a high amount of points in the vertical central 40 lines
-      if Enum.count(positions, fn {x, y} -> y >= 30 && y <= 70 end) > 375 do
+      if Enum.count(positions, fn {x, y} -> y >= 30 && y <= 70 && x > 30 && x < 70 end) > 300 do
         IO.inspect(i)
         Enum.reduce(positions, empty_grid, fn {x, y}, acc ->
           CalbeGrid.set_by_x_y(acc, x, y, "#")
