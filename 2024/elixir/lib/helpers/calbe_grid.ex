@@ -134,7 +134,8 @@ defmodule Helpers.CalbeGrid do
         end)
         |> Enum.sort(fn {_, a}, {_, b} -> a < b end)
 
-        Enum.reduce_while(1..20000, %{priority_queue: priority_queue, visited_nodes: [], predecessors: %{}}, fn _iteration, acc ->
+        Enum.reduce_while(1..20000, %{priority_queue: priority_queue, visited_nodes: [], predecessors: %{}}, fn iteration, acc ->
+            IO.puts("iteration: #{iteration}")
 
             # IO.inspect(acc, [label: "acc", charlists: :as_lists])
 
@@ -161,7 +162,7 @@ defmodule Helpers.CalbeGrid do
 
                         filtered_acc2 = acc2 |> Enum.filter(fn {key, _} -> key != neighbor end)
 
-                        new_entry = {neighbor, base_dist + get_weight.(grid, neighbor, current_node)}
+                        new_entry = {neighbor, base_dist + get_weight.(grid, neighbor, current_node, preds)}
 
                         new_preds = Map.put(preds, neighbor, current_node)
 
