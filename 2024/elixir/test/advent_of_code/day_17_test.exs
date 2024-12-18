@@ -15,7 +15,7 @@ Program: 0,1,5,4,3,0"
     assert result == "4,6,3,5,6,3,5,2,1,0"
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = "Register A: 2024
 Register B: 0

@@ -135,7 +135,7 @@ defmodule Helpers.CalbeGrid do
         |> Enum.sort(fn {_, a}, {_, b} -> a < b end)
 
         Enum.reduce_while(1..20000, %{priority_queue: priority_queue, visited_nodes: [], predecessors: %{}}, fn iteration, acc ->
-            IO.puts("iteration: #{iteration}")
+            # IO.puts("iteration: #{iteration}")
 
             # IO.inspect(acc, [label: "acc", charlists: :as_lists])
 
