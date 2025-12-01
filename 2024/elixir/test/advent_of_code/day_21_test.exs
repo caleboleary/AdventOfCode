@@ -5,10 +5,14 @@ defmodule AdventOfCode.Day21Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input = "029A
+980A
+179A
+456A
+379A"
     result = part1(input)
 
-    assert result
+    assert result == 126384
   end
 
   @tag :skip

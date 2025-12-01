@@ -5,17 +5,23 @@ defmodule AdventOfCode.Day22Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input = "1
+10
+100
+2024"
     result = part1(input)
 
-    assert result
+    assert result == 37327623
   end
 
-  @tag :skip
+  # @tag :skip
   test "part2" do
-    input = nil
+    input = "1
+2
+3
+2024"
     result = part2(input)
 
-    assert result
+    assert result == "-2,1,-1,3"
   end
 end
