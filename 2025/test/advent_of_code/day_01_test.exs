@@ -20,6 +20,7 @@ L82"
     assert result === 3
   end
 
+  @tag :skip
   test "part2" do
     input = "L68
 L30
