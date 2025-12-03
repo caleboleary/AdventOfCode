@@ -35,7 +35,7 @@ defmodule AdventOfCode.Day02 do
     start_digit_count = Integer.to_string(range_start) |> String.length()
     end_digit_count = Integer.to_string(range_end) |> String.length()
 
-    IO.inspect({start_digit_count, end_digit_count}, label: "Digit Counts")
+    # IO.inspect({start_digit_count, end_digit_count}, label: "Digit Counts")
 
     # we only care about even digit ids, all odds will never matter
     # at a glance all ranges are no more than 1 digit apart so we can ignore for now
@@ -72,15 +72,15 @@ defmodule AdventOfCode.Day02 do
       {String.to_integer(start_str), String.to_integer(end_str)}
     end)
 
-    IO.inspect(ranges, label: "Parsed Ranges")
+    # IO.inspect(ranges, label: "Parsed Ranges")
 
     invalid_ids = ranges
     |> Enum.map(fn {range_start, range_end} ->
       get_invalid_ids_in_range(range_start, range_end)
     end)
-    |> IO.inspect(label: "Invalid IDs per Range", charlists: :as_lists)
+    # |> IO.inspect(label: "Invalid IDs per Range", charlists: :as_lists)
     |> List.flatten()
-    |> IO.inspect(label: "All Invalid IDs", charlists: :as_lists)
+    # |> IO.inspect(label: "All Invalid IDs", charlists: :as_lists)
     |> Enum.reduce(0, fn id, acc -> acc + id end)
 
   end
@@ -89,10 +89,10 @@ defmodule AdventOfCode.Day02 do
     start_digit_count = Integer.to_string(range_start) |> String.length()
     end_digit_count = Integer.to_string(range_end) |> String.length()
 
-    IO.inspect({range_start, range_end}, label: "P2 Range - Same Digit Count invoked")
+    # IO.inspect({range_start, range_end}, label: "P2 Range - Same Digit Count invoked")
 
     end_target_denom =  start_digit_count
-    |> IO.inspect(label: "End Target Denominator for range #{range_start}-#{range_end}")
+    # |> IO.inspect(label: "End Target Denominator for range #{range_start}-#{range_end}")
     Enum.map(2..end_target_denom, fn denominator ->
       if rem(start_digit_count, denominator) == 0 do
         segment_length = div(start_digit_count, denominator)
@@ -102,14 +102,14 @@ defmodule AdventOfCode.Day02 do
           |> Integer.to_string()
           |> String.slice(0, segment_length)
           |> String.to_integer()
-          |> IO.inspect(label: "Segment Start for denominator #{denominator}")
+          # |> IO.inspect(label: "Segment Start for denominator #{denominator}")
 
         segment_end =
           range_end
           |> Integer.to_string()
           |> String.slice(0, segment_length)
           |> String.to_integer()
-          |> IO.inspect(label: "Segment End for denominator #{denominator}")
+          # |> IO.inspect(label: "Segment End for denominator #{denominator}")
 
         Enum.reduce(segment_start..segment_end, [], fn segment, acc ->
           full_id =
@@ -118,9 +118,9 @@ defmodule AdventOfCode.Day02 do
             |> String.to_integer()
 
           if full_id >= range_start and full_id <= range_end do
-            IO.inspect(full_id, label: "Found P2 invalid ID for denominator #{denominator}")
-            IO.inspect({range_start, range_end}, label: "Range")
-            IO.inspect(segment, label: "Segment")
+            # IO.inspect(full_id, label: "Found P2 invalid ID for denominator #{denominator}")
+            # IO.inspect({range_start, range_end}, label: "Range")
+            # IO.inspect(segment, label: "Segment")
             acc ++ [full_id]
           else
             acc
@@ -157,15 +157,15 @@ defmodule AdventOfCode.Day02 do
 
       start_digit_count < end_digit_count ->
         bottom_start = range_start
-        |> IO.inspect(label: "Bottom Start for range #{range_start}-#{range_end}")
+        # |> IO.inspect(label: "Bottom Start for range #{range_start}-#{range_end}")
 
         bottom_end = String.duplicate("9", end_digit_count - 1) |> String.to_integer()
-        |> IO.inspect(label: "Bottom End for range #{range_start}-#{range_end}")
+        # |> IO.inspect(label: "Bottom End for range #{range_start}-#{range_end}")
 
         top_start = trunc(:math.pow(10, end_digit_count - 1))
-        |> IO.inspect(label: "Top Start for range #{range_start}-#{range_end}")
+        # |> IO.inspect(label: "Top Start for range #{range_start}-#{range_end}")
         top_end = range_end
-        |> IO.inspect(label: "Top End for range #{range_start}-#{range_end}")
+        # |> IO.inspect(label: "Top End for range #{range_start}-#{range_end}")
 
         get_p2_invalid_ids_in_range_same_digit_count(bottom_start, bottom_end) ++
         get_p2_invalid_ids_in_range_same_digit_count(top_start, top_end)
@@ -187,7 +187,7 @@ defmodule AdventOfCode.Day02 do
       {String.to_integer(start_str), String.to_integer(end_str)}
     end)
 
-    IO.inspect(ranges, label: "Parsed Ranges")
+    # IO.inspect(ranges, label: "Parsed Ranges")
 
     invalid_ids = ranges
     |> Enum.map(fn {range_start, range_end} ->
@@ -196,7 +196,7 @@ defmodule AdventOfCode.Day02 do
     |> List.flatten()
     |> Enum.uniq()
     |> Enum.filter(fn id -> id > 9 end)
-    |> IO.inspect(label: "All P2 Invalid IDs", charlists: :as_lists)
+    # |> IO.inspect(label: "All P2 Invalid IDs", charlists: :as_lists)
     |> Enum.reduce(0, fn id, acc -> acc + id end)
 
 
