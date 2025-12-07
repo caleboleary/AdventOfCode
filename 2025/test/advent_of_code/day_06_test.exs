@@ -14,7 +14,7 @@ defmodule AdventOfCode.Day06Test do
     assert result == 4277556
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = "123 328  51 64
  45 64  387 23
